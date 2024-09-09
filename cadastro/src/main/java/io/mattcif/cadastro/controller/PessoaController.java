@@ -23,6 +23,7 @@ public class PessoaController {
     public ResponseEntity<String> cadastrarPessoa(@RequestBody PessoaDto dto) {
         try {
             Pessoa pessoa = new Pessoa(dto);
+            pessoaRepository.save(pessoa);
             return new ResponseEntity<>("Pessoa cadastrada com sucesso", HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>("Erro ao cadastrar pessoa.", HttpStatus.BAD_REQUEST);

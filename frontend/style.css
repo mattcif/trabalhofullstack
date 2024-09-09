@@ -1,17 +1,46 @@
 body {
-    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
 }
 
-h1 {
-    color: #343a40;
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.list-group-item {
+h1, h2 {
+    text-align: center;
+}
+
+form {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
 }
 
-.list-group-item .badge {
-    font-size: 0.9em;
+input, button {
+    padding: 10px;
+    margin: 5px 0;
+}
+
+button {
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+#message {
+    text-align: center;
+    color: green;
+}
+
+#error {
+    color: red;
 }

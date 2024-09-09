@@ -1,44 +1,49 @@
-const form = document.getElementById('cadastro-form');
-const listarPessoasBtn = document.getElementById('listar-pessoas');
-const pessoasList = document.getElementById('pessoas-list');
+const form = document.getElementById('cadastroForm');
+const nameInput = document.getElementById('name');
+const cpfInput = document.getElementById('cpf');
+const phoneInput = document.getElementById('phone');
+const messageElement = document.getElementById('message');
+const pessoasList = document.getElementById('pessoasList');
+const listarPessoasBtn = document.getElementById('listarPessoasBtn');
 
-// Função para cadastrar uma pessoa
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const cpf = document.getElementById('cpf').value;
-    const phone = document.getElementById('phone').value;
+    const pessoaDto = {
+        name: nameInput.value,
+        cpf: cpfInput.value,
+        phone: phoneInput.value,
+    };
 
     try {
-        const response = await axios.post('http://localhost:8080/api/cadastro', {
-            name,
-            cpf,
-            phone
-        });
+        const response = await axios.post('http://localhost:8080/api/cadastro', pessoaDto);
+        messageElement.textContent = response.data;
+        messageElement.style.color = 'green';
 
-        alert(response.data);
-        form.reset();
+        nameInput.value = '';
+        cpfInput.value = '';
+        phoneInput.value = '';
     } catch (error) {
-        alert('Erro ao cadastrar pessoa. Verifique os dados e tente novamente.');
-        console.error(error);
+        messageElement.textContent = 'Erro ao cadastrar pessoa.';
+        messageElement.style.color = 'red';
     }
 });
 
-// Função para listar pessoas cadastradas
-listarPessoasBtn.addEventListener('click', async () => {
+async function listarPessoas() {
     try {
         const response = await axios.get('http://localhost:8080/api/pessoas');
         pessoasList.innerHTML = '';
 
-        response.data.forEach(pessoa => {
-            const listItem = document.createElement('li');
-            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-            listItem.innerHTML = `${pessoa.name} - ${pessoa.cpf} - ${pessoa.phone}`;
-            pessoasList.appendChild(listItem);
+        response.data.forEach((pessoa) => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.textContent = `${pessoa.name} - ${pessoa.cpf} - ${pessoa.phone}`;
+            pessoasList.appendChild(li);
         });
     } catch (error) {
-        alert('Erro ao listar pessoas cadastradas.');
-        console.error(error);
+        messageElement.textContent = 'Erro ao buscar as pessoas.';
+        messageElement.style.color = 'red';
     }
-});
+}
+
+listarPessoasBtn.addEventListener('click', listarPessoas);
